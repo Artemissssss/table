@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getDatabase, set, ref ,push, child, onValue, remove} from
+    "https://www.gstatic.com/firebasejs/9.6.2/firebase-database.js";
+    
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    
+    // Your web app's Firebase configuration
+    
+    // Initialize Firebase
+    const firebaseConfig = {
+  apiKey: "AIzaSyBc-CGYlpuige5dTA2stkkTR_t8Yavxnvs",
+  authDomain: "hoodie-10857.firebaseapp.com",
+  projectId: "hoodie-10857",
+  storageBucket: "hoodie-10857.appspot.com",
+  messagingSenderId: "16369610387",
+  appId: "1:16369610387:web:864c91a51090b74520e766",
+  databaseURL:"https://hoodie-10857-default-rtdb.europe-west1.firebasedatabase.app",
+};
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const starCountRef = ref(database, 'hoodies/');
+    let i = 0;
+    
+    onValue(starCountRef, (snapshot) => {
+      let a = 0;
+      let balb = document.querySelector("body")
+      let ul = document.createElement("ul")
+      ul.id = `table${i}`;
+      ul.className = "table"
+      balb.appendChild(ul)
+      if(i >= 1){
+        document.getElementById(`table${i-1}`).remove()
+      }
+      //======================================================
+      let bal = document.getElementById(`table${i}`);
+        let li = document.createElement("li")
+        li.className = 'li'
+        bal.appendChild(li)
+        let bal0 = document.getElementsByClassName("li")[a]
+        let num = document.createElement("h3")
+        num.className ="num"
+        num.innerHTML = "№";
+        bal0.appendChild(num)
+        let bal01 = document.getElementsByClassName("li")[a]
+        let nam = document.createElement("p")
+        nam.className ="nam"
+        nam.innerHTML = "Id заказа";
+        bal01.appendChild(nam)
+        let bal2 = document.getElementsByClassName("li")[a]
+        let h2 = document.createElement("h2")
+        h2.className= 'h2'
+        bal2.appendChild(h2)
+        h2.textContent = "Худи первая";
+        let bal21 = document.getElementsByClassName("li")[a]
+        let h21 = document.createElement("h2")
+        h21.className= 'h2'
+        bal21.appendChild(h21)
+        h21.textContent = "Худи вторая";
+        let bal211 = document.getElementsByClassName("li")[a]
+        let h211 = document.createElement("h2")
+        h211.className= 'h2'
+        bal211.appendChild(h211)
+        h211.textContent = "Имя";
+        let bal212 = document.getElementsByClassName("li")[a]
+        let h212 = document.createElement("h2")
+        h212.className= 'h2'
+        bal212.appendChild(h212)
+        h212.textContent = "Телефон";
+        let bal3 = document.getElementsByClassName("li")[a]
+        let p = document.createElement("p")
+        p.className ="p"
+        bal3.appendChild(p)
+        p.textContent = "Сделано";
+        a++;
+let hoodie1 = []
+let hoodie2= []
+let name = []
+let tel = []
+let keys = []
+let complete = []
+        //=====================================================
+  
+snapshot.forEach(childSnapshot => {
+const data = childSnapshot.val()
+const key = childSnapshot.key;
+hoodie1.unshift(data.hoodie1)
+hoodie2.unshift(data.hoodie2)
+name.unshift(data.name)
+tel.unshift(data.tel)
+keys.unshift(key)
+complete.unshift(data.complete)
+
+      });
+      for(let g = 0; g< hoodie1.length;g++){
+        const hoodie11 = hoodie1[g]
+        const hoodie21= hoodie2[g]
+const name1 = name[g]
+const tel1 = tel[g]
+const keys1 =  keys[g]
+const compelete1 = complete[g]
+        let bal = document.getElementById(`table${i}`);
+        let li = document.createElement("li")
+        li.className = 'li'
+        bal.appendChild(li)
+        let bal0 = document.getElementsByClassName("li")[a]
+        let num = document.createElement("h3")
+        num.className ="num"
+        num.innerHTML = a;
+        bal0.appendChild(num)
+        let bal01 = document.getElementsByClassName("li")[a]
+        let nam = document.createElement("p")
+        nam.className ="nam"
+        nam.innerHTML = keys1;
+        bal01.appendChild(nam)
+        let bal2 = document.getElementsByClassName("li")[a]
+        let h2 = document.createElement("h2")
+        h2.className= 'h2'
+        bal2.appendChild(h2)
+        h2.innerHTML = hoodie11;
+
+        let bal22 = document.getElementsByClassName("li")[a]
+        let h22 = document.createElement("h2")
+        h22.className= 'h2'
+        bal22.appendChild(h22)
+        h22.innerHTML = hoodie21;
+
+        let bal23 = document.getElementsByClassName("li")[a]
+        let h23 = document.createElement("h2")
+        h23.className= 'h2'
+        bal23.appendChild(h23)
+        h23.innerHTML = name1;
+
+        let bal24 = document.getElementsByClassName("li")[a]
+        let h24 = document.createElement("h2")
+        h24.className= 'h2'
+        bal24.appendChild(h24)
+        h24.innerHTML = tel1;
+
+
+
+        let bal3 = document.getElementsByClassName("li")[a]
+        let p = document.createElement("input")
+        p.className ="p"
+        p.type = "checkbox"
+        p.id = keys1
+        bal3.appendChild(p)
+       p.checked = compelete1;
+        a++;
+      }
+      i++;
+$(".p").click( (e) => {
+
+let m = keys.indexOf(e.target.id)
+    set(ref(database, 'hoodies/' + e.target.id), {  
+        name: name[m],
+        tel:tel[m],
+        hoodie1:hoodie1[m],
+        hoodie2: hoodie2[m],
+        complete:true,
+      });
+    })
+
+    });
+
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .all {
+            width: 500px;
+            margin: 20px auto;
+        }
+
+        .table {
+            list-style: none;
+            width: 2000px;
+            margin: 20px auto;
+        }
+
+        .li1 {
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-around;
+            width: 2000px;
+            height: 70px;
+            border-bottom: none;
+        }
+
+        .li1:nth-last-of-type(1) {
+            border-bottom: 1px solid black;
+        }
+
+        .num1 {
+            width: 100px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .nam1 {
+            width: 200px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .h21 {
+            width: 200px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .p1 {
+            width: 200px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .li {
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-around;
+            width: 1300px;
+            height: 70px;
+            border-bottom: none;
+        }
+
+        .li:nth-last-of-type(1) {
+            border-bottom: 1px solid black;
+        }
+
+        .num {
+            width: 100px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .nam {
+            width: 500px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .h2 {
+            width: 500px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid black;
+        }
+
+        .p {
+            width: 500px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</body>
+
+</html>
